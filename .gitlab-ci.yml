@@ -1,0 +1,13 @@
+image: docker
+services:
+    - docker:dind
+stages:
+    - test
+test:
+    stage: test
+    only: 
+        - master
+    script:
+        - docker build -t upload-file .
+        - docker-compose up -d
+        - sudo docker rmi $(sudo docker images -f "dangling=true" -q)
